@@ -1,5 +1,4 @@
-CREATE OR REPLACE FUNCTION iptoint(ip IN VARCHAR2) RETURN INTEGER IS
-  ip_string varchar2(64);
+CREATE OR REPLACE FUNCTION iptoint(ip_string IN VARCHAR2) RETURN INTEGER IS
   d1 INTEGER;
   d2 INTEGER;
   d3 INTEGER;
@@ -9,7 +8,6 @@ CREATE OR REPLACE FUNCTION iptoint(ip IN VARCHAR2) RETURN INTEGER IS
   q4 VARCHAR2(3);
   v8 VARCHAR2(8);
 BEGIN
-  ip_string := trim(ip);
   -- 1. parse the input, e.g. '203.30.237.2'
   d1 := INSTR(ip_string,'.');     -- first dot
   d2 := INSTR(ip_string,'.',1,2); -- second dot
@@ -25,7 +23,5 @@ BEGIN
      || LPAD(TO_CHAR(TO_NUMBER(q4),'FMXX'),2,'0');
   -- 3. convert to a decimal number
   RETURN TO_NUMBER(v8, 'FMXXXXXXXX');
-EXCEPTION WHEN OTHERS THEN
-  RETURN 0;
 END iptoint;
 /
